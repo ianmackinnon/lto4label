@@ -77,11 +77,11 @@ def render(width, height, margin, rows, columns, labels, legend=""):
 <svg
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   width="{width}mm"
-   height="{height}mm"
+   width="%fmm"
+   height="%fmm"
    version="1.1"
    style="font-family:freesans, sans">
-""".format(width=width, height=height))
+""" % (width, height))
 
     x = margin
     y = margin
@@ -91,16 +91,16 @@ def render(width, height, margin, rows, columns, labels, legend=""):
         if  y + 17 > (height - margin):
             x += 78 + margin
             y = margin
-        r.write("""  <g transform="translate({xpx},{ypx})">
+        r.write("""  <g transform="translate(%f,%f)">
     <rect ry="1mm" rx="1mm" y="0" x="0" height="17mm" width="78mm" style="fill:none;stroke:black;stroke-opacity:.2;stroke-width:0.1mm;" />
     <g transform="scale(1.55,1)">
-""".format(xpx=mm_to_px(x), ypx=mm_to_px(y)))
+""" % (mm_to_px(x), mm_to_px(y)))
 
         cx = 10
         for f in label.code_39:
             if f in 'bB':
-                r.write("""      <rect y="0" x="{x}" height="17mm" width="{width}" style="fill:black;stroke-width:0;" />
-""".format(x=cx, width=1 + 2 * int(f == "B")))
+                r.write("""      <rect y="0" x="%f" height="17mm" width="%f" style="fill:black;stroke-width:0;" />
+""" % (cx, 1 + 2 * int(f == "B")))
             cx += 1 + 2 * int(f in "BW") 
         r.write("""    </g>
 """)
@@ -109,15 +109,15 @@ def render(width, height, margin, rows, columns, labels, legend=""):
         nx = 3
 
         for n, color in label.color_numbers:
-            r.write("""    <rect y="0" x="{rectx}mm" height="5mm" width="{width}mm" style="fill:{color};stroke:#000000;stroke-width:0.1mm;" />
-    <text y="3.9mm" x="{textx}mm" style="font-size:4mm; text-anchor: middle;">{n}</text>
-""".format(rectx=nx, width=nwidth, color=color, textx=nx + nwidth / 2, n=n))
+            r.write("""    <rect y="0" x="%fmm" height="5mm" width="%fmm" style="fill:%s;stroke:#000000;stroke-width:0.1mm;" />
+    <text y="3.9mm" x="%fmm" style="font-size:4mm; text-anchor: middle;">%s</text>
+""" % (nx, nwidth, color, nx + nwidth / 2, n))
 
             nx += nwidth
-        r.write("""    <rect y="0" x="{rectx}mm" height="5mm" width="{width}mm" style="fill:white;stroke:#000000;stroke-width:0.1mm;" />
-    <text y="3.3mm" x="{textx}mm" style="font-size:2.5mm; text-anchor: middle;">L4</text>
+        r.write("""    <rect y="0" x="%fmm" height="5mm" width="%fmm" style="fill:white;stroke:#000000;stroke-width:0.1mm;" />
+    <text y="3.3mm" x="%fmm" style="font-size:2.5mm; text-anchor: middle;">L4</text>
   </g>
-""".format(rectx=nx, width=nwidth, textx=nx + nwidth / 2))
+""".format(nx, nwidth, nx + nwidth / 2))
 
         y += 17 + margin
 
@@ -156,9 +156,9 @@ TAPENUMBER... :  Up to 20 integers between 0 and 999999 inclusive."""
         quit()
 
 
-    width = 210
-    height = 297
-    margin = 10
+    width = 210.
+    height = 297.
+    margin = 10.
     columns = int((width - margin) / (Label._width + margin))
     rows = int((height - margin) / (Label._height + margin))
 
