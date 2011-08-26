@@ -11,3 +11,41 @@ if ! which inkscape &> /dev/null
     echo "$0: Inkscape not found (http://www.inkscape.org)." 1>&2
     exit 1
     fi
+
+if [[ $# -lt 2 ]]
+    then
+    echo "Usage: $(basename $0) TAPENUMBER... PDF 
+
+  TAPENUMBER...:  1-20 integer tape numbers between 1 and 999999 inclusive.
+  PDF:            PDF output path.
+" 1>&2
+    exit 1
+    fi
+
+pdf_path="${@: -1}"
+label_numbers="${@:1:$(($# - 1))}"
+
+if [[ ! $pdf_path =~ [.]pdf$ ]]
+    then
+    echo "$0: $pdf_path: The last argument is the path to the output PDF and should end '.pdf'" 1>&2
+    exit 1
+    fi
+
+if [[ ! $label_numbers =~ ^[0-9\ ]+$ ]]
+    then
+    echo "$0: $label_numbers: Number arguments may only contain digits." 1>&2
+    exit 1
+    fi
+
+if ! $(dirname $0)/lto4labelsvg.py $label_numbers > /tmp/lto4.svg
+    then
+    echo "$0: SVG generation failed." 1>&2
+    exit 1
+    fi
+    
+if ! inkscape -A "$pdf_path" /tmp/lto4.svg
+    then
+    echo "$0: PDF generation failed." 1>&2
+    exit 1
+    fi
+
