@@ -1,6 +1,13 @@
 #!/bin/bash
 
-if which inkscape > /dev/null
+if ! which python &> /dev/null
     then
+    echo "$0: Python not found (http://www.python.org)." 1>&2
+    exit 1
+    fi
+
+if ! which inkscape &> /dev/null
+    then
+    echo "$0: Inkscape not found (http://www.inkscape.org)." 1>&2
     exit 1
     fi
