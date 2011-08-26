@@ -117,7 +117,7 @@ def render(width, height, margin, rows, columns, labels, legend=""):
         r.write("""    <rect y="0" x="%fmm" height="5mm" width="%fmm" style="fill:white;stroke:#000000;stroke-width:0.1mm;" />
     <text y="3.3mm" x="%fmm" style="font-size:2.5mm; text-anchor: middle;">L4</text>
   </g>
-""".format(nx, nwidth, nx + nwidth / 2))
+""" % (nx, nwidth, nx + nwidth / 2))
 
         y += 17 + margin
 
