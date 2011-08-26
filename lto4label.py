@@ -86,7 +86,7 @@ def render(width, height, margin, rows, columns, labels, legend=""):
     x = margin
     y = margin
     while labels:
-        label = labels.pop()
+        label = labels.pop(0)
         assert x + 78 < (width - margin), "Too many for page"
         if  y + 17 > (height - margin):
             x += 78 + margin
